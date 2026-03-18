@@ -13,12 +13,14 @@ import java.util.List;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@Entity
 public class Account {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private String accountId;
 
     private double balance;
+    @Column(unique = true,nullable = false)
     private String accountName;
     private long accountNumber;
     private String currency;
@@ -33,7 +35,7 @@ public class Account {
     private String status;
     private String type;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "owner_id")
     private User owner;
 
