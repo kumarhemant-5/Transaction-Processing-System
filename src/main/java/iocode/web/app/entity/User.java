@@ -12,6 +12,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -33,8 +34,9 @@ public class User implements UserDetails {
 
     @Column(nullable = false, unique = true)
     private String username;
-    private LocalDate dob;
-    private String tel;
+    private Date dob;
+    private String tal;
+    private String tag;
     private String password;
     private String gender;
 
