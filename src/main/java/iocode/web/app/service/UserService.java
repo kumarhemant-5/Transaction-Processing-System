@@ -4,16 +4,23 @@ import iocode.web.app.dto.UserDto;
 import iocode.web.app.entity.User;
 import iocode.web.app.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor
 public class UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+    private final UserDetailsService userDetailsService;
+    private final AuthenticationManager authenticationManager;
+    private final JwtService jwtService;
 
     public User registerUser(UserDto userDto){
         User user = mapToUser(userDto);
@@ -33,4 +40,20 @@ public class UserService {
     }
 
 
+    public Map<String,Object> authenticateUser(UserDto userDto) {
+        Map<String,Object> authObject = new HashMap<String,Object>();
+        User user = (User)userDetailsService.loadUserByUsername(userDto.getUsername());
+
+        if(user == null){
+            throw new UsernameNotFoundException("User Not Found");
+        }
+
+        authenticationManager.
+                authenticate(new UsernamePasswordAuthenticationToken(userDto.getUsername(),userDto.getPassword()));
+
+        authObject.put("token","Bearer ".concat(jwtService.generateToken(userDto.getUsername())));
+        authObject.put("User",user);
+
+        return null;
+    }
 }
