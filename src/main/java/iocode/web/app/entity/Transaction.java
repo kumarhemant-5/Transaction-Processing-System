@@ -1,4 +1,5 @@
 package iocode.web.app.entity;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
@@ -12,8 +13,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-public class Transactions {
-
+public class Transaction {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private String txId;
@@ -23,15 +23,20 @@ public class Transactions {
     private String sender;
     private String receiver;
 
+    private String description;
+
     @UpdateTimestamp
     private LocalDateTime updatedAt;
     @CreationTimestamp
     private LocalDateTime createdAt;
+
+    @Enumerated(value = EnumType.STRING)
     private Status status;
     private Type type;
 
     @ManyToOne
     @JoinColumn(name = "card_id")
+    @JsonIgnore
     private Card card;
 
     @ManyToOne
@@ -40,5 +45,6 @@ public class Transactions {
 
     @ManyToOne
     @JoinColumn(name = "account_id")
+    @JsonIgnore
     private Account account;
 }

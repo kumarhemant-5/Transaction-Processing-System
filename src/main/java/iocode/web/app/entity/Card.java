@@ -1,9 +1,12 @@
 package iocode.web.app.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
+
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -24,7 +27,7 @@ public class Card {
     private Double balance;
 
     @CreationTimestamp
-    private LocalDateTime iss;
+    private LocalDate iss;
     @UpdateTimestamp
     private LocalDateTime updatedAt;
     private LocalDateTime exp;
@@ -34,9 +37,10 @@ public class Card {
 
     @OneToOne
     @JoinColumn(name = "owner_id")
+    @JsonIgnore
     private User owner;
 
     @OneToMany(mappedBy = "card", cascade = CascadeType.ALL,fetch = FetchType.LAZY)
-    private List<Transactions> transactions;
-
+    @JsonIgnore
+    private List<Transaction> transactions;
 }

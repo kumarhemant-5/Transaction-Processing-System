@@ -1,5 +1,6 @@
 package iocode.web.app.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
@@ -20,8 +21,8 @@ public class Account {
     private String accountId;
 
     private double balance;
-    @Column(unique = true,nullable = false)
     private String accountName;
+    @Column(unique = true,nullable = false)
     private long accountNumber;
     private String currency;
     private String code;
@@ -37,11 +38,10 @@ public class Account {
 
     @ManyToOne
     @JoinColumn(name = "owner_id")
+    @JsonIgnore
     private User owner;
 
 
     @OneToMany(mappedBy = "account", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<Transactions> transactions;
-
-
+    private List<Transaction> transactions;
 }
