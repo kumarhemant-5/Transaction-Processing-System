@@ -50,10 +50,13 @@ public class User implements UserDetails {
 
     private List<String> roles;
 
+
     @OneToOne(mappedBy = "owner")
+    @JsonIgnore
     private Card card;
 
     @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonIgnore
     private List<Transaction> transactions;
 
     @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL, fetch = FetchType.LAZY)

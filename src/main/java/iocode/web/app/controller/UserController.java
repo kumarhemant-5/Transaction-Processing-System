@@ -25,9 +25,4 @@ public class UserController {
         return ResponseEntity.ok().header(HttpHeaders.AUTHORIZATION,(String) authObject.get("token"))
                 .body(authObject.get("user"));
     }
-
-
-
-
-
 }

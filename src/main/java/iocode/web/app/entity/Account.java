@@ -33,8 +33,7 @@ public class Account {
     private LocalDateTime updatedAt;
     @CreationTimestamp
     private LocalDateTime createdAt;
-    private String status;
-    private String type;
+
 
     @ManyToOne
     @JoinColumn(name = "owner_id")
