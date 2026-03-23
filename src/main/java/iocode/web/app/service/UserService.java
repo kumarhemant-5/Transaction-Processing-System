@@ -52,8 +52,8 @@ public class UserService {
                 authenticate(new UsernamePasswordAuthenticationToken(userDto.getUsername(),userDto.getPassword()));
 
         authObject.put("token","Bearer ".concat(jwtService.generateToken(userDto.getUsername())));
-        authObject.put("User",user);
+        authObject.put("user",user);
 
-        return null;
+        return authObject;
     }
 }
