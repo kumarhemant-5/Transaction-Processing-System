@@ -12,12 +12,13 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-
+import java.util.Map;
 @Service
 @RequiredArgsConstructor
 public class AccountService {
     private final AccountRepository accountRepository;
     private final AccountHelper accountHelper;
+    private final ExchangeRateService exchangeRateService;
 
     public Account createAccount(AccountDto accountDto, User user) throws Exception {
         return accountHelper.createAccount(accountDto,user);
@@ -34,5 +35,9 @@ public class AccountService {
         var receiverAccount = accountRepository.findByAccountNumber(transferDto.getRecipientAccountNumber()).orElseThrow();
 
         return accountHelper.performTransfer(senderAccount,receiverAccount,transferDto.getAmount(),user);
+    }
+
+    public Map<String, Double> getExchangeRate() {
+        return exchangeRateService.getRates();
     }
 }

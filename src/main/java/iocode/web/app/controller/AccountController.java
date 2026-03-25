@@ -11,6 +11,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/accounts")
@@ -35,6 +36,12 @@ public class AccountController {
         var user = (User) authentication.getPrincipal();
         return ResponseEntity.ok(accountService.transferFunds(transferDto, user));
     }
+
+    @GetMapping("/rates")
+    public ResponseEntity<Map<String, Double>> getExchangeRate() {
+        return ResponseEntity.ok(accountService.getExchangeRate());
+    }
+
 
 
 
