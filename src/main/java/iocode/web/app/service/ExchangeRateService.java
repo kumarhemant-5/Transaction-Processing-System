@@ -31,6 +31,7 @@ public class ExchangeRateService {
     private String apiKey;
 
     public void getExchangeRate(){
+        System.out.println("ExchangeRateService: getExchangeRate");
         String CURRENCY_API = "https://api.currencyapi.com/v3/latest?apikey=";
         var response = restTemplate.getForEntity(CURRENCY_API+ apiKey, JsonNode.class);
 

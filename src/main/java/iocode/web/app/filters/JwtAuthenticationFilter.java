@@ -5,8 +5,8 @@ import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import org.springframework.lang.NonNull;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -24,28 +24,26 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     protected void doFilterInternal(
             @NonNull HttpServletRequest request,
             @NonNull HttpServletResponse response,
-            @NonNull FilterChain filterChain)
-         throws ServletException, IOException {
+            @NonNull FilterChain filterChain
+    ) throws ServletException, IOException {
+        System.out.println("JwtAuthenticationFilter: doFilterInternal");
 
         String jwtToken = request.getHeader("Authorization");
-        if(jwtToken == null || !jwtService.isTokenValid(jwtToken.substring(7))){
-            filterChain.doFilter(request,response);
+        System.out.println(jwtToken+"  "+(jwtToken==null));
+        if(jwtToken == null || !jwtService.isTokenValid(jwtToken.substring(7))) {
+            filterChain.doFilter(request, response);
             return;
         }
 
-        jwtToken  = jwtToken.startsWith("Bearer ")? jwtToken.substring(7) : jwtToken;
+        jwtToken = jwtToken.startsWith("Bearer ") ? jwtToken.substring(7) : jwtToken;
         String subject = jwtService.extractSubject(jwtToken);
         User user = (User) userDetailsService.loadUserByUsername(subject);
-
         var context = SecurityContextHolder.getContext();
-
-        if(user !=null && context.getAuthentication() == null){
-            var authenticationToken = new UsernamePasswordAuthenticationToken(user,null, user.getAuthorities());
+        if(user != null && context.getAuthentication() == null) {
+            var authenticationToken = new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
             authenticationToken.setDetails(request);
             context.setAuthentication(authenticationToken);
-            filterChain.doFilter(request,response);
         }
-
-
+        filterChain.doFilter(request, response);
+        }
     }
-}

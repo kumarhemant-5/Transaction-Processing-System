@@ -16,12 +16,15 @@ public class UserController {
 
     @PostMapping("/register")
     public ResponseEntity<User> registerUser(@RequestBody UserDto userDto){
+        System.out.println("UserController: register");
         return ResponseEntity.ok(userService.registerUser(userDto));
     }
 
     @PostMapping("/auth")
     public ResponseEntity<?> authenticateUser(@RequestBody UserDto userDto){
+        System.out.println("UserController: authenticateUser");
         var authObject = userService.authenticateUser(userDto);
+
         return ResponseEntity.ok().header(HttpHeaders.AUTHORIZATION,(String) authObject.get("token"))
                 .body(authObject.get("user"));
     }

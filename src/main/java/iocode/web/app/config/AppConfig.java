@@ -19,21 +19,23 @@ import java.util.concurrent.ScheduledExecutorService;
 @Configuration
 @RequiredArgsConstructor
 public class AppConfig {
-
     final private UserRepository userRepository;
 
     @Bean
     public UserDetailsService userDetailsService(){
+        System.out.println("AppConfig:Bean userDetailsService");
         return userRepository::findByUsernameIgnoreCase;
     }
 
     @Bean
     public PasswordEncoder passwordEncoder(){
+        System.out.println("AppConfig:Bean passwordEncoder");
         return new BCryptPasswordEncoder();
     }
 
     @Bean
     public AuthenticationProvider authenticationProvider(){
+        System.out.println("AppConfig:Bean authenticationProvider");
         var daoProvider = new DaoAuthenticationProvider(passwordEncoder());
         daoProvider.setUserDetailsService(userDetailsService());
         return daoProvider;
@@ -41,16 +43,19 @@ public class AppConfig {
 
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception{
+        System.out.println("AppConfig:Bean authenticationManager");
         return config.getAuthenticationManager();
     }
 
     @Bean
     public RestTemplate restTemplate(){
+        System.out.println("AppConfig:Bean restTemplate");
         return new RestTemplate();
     }
 
     @Bean
     public ScheduledExecutorService scheduledExecutorService(){
+        System.out.println("AppConfig:Bean scheduledExecutorService");
         return Executors.newScheduledThreadPool(1);
     }
 }

@@ -1,6 +1,7 @@
 package iocode.web.app.service;
 
 import iocode.web.app.dto.AccountDto;
+import iocode.web.app.dto.ConvertDto;
 import iocode.web.app.dto.TransferDto;
 import iocode.web.app.entity.Account;
 import iocode.web.app.entity.Transaction;
@@ -21,14 +22,17 @@ public class AccountService {
     private final ExchangeRateService exchangeRateService;
 
     public Account createAccount(AccountDto accountDto, User user) throws Exception {
+        System.out.println("AccountService: createAccount");
         return accountHelper.createAccount(accountDto,user);
     }
 
     public List<Account> getUserAccounts(String uid) {
+        System.out.println("AccountService: getUserAccounts");
         return accountRepository.findAllByOwnerUid(uid);
     }
 
     public Transaction transferFunds(TransferDto transferDto, User user) throws Exception {
+        System.out.println("AccountService: transferFunds");
         var senderAccount = accountRepository.findByCodeAndOwnerUid(transferDto.getCode(), user.getUid())
                 .orElseThrow(()->new UnsupportedOperationException("Account of type currency do not exists for user"));
 
@@ -38,6 +42,12 @@ public class AccountService {
     }
 
     public Map<String, Double> getExchangeRate() {
+        System.out.println("AccountService: getExchangeRate");
         return exchangeRateService.getRates();
+    }
+
+    public Transaction convertCurrency(ConvertDto convertDto, User user)throws Exception{
+        System.out.println("AccountService: convertCurrency");
+        return accountHelper.convertCurrency(convertDto,user);
     }
 }

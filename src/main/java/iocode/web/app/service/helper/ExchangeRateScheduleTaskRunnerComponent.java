@@ -23,8 +23,9 @@ public class ExchangeRateScheduleTaskRunnerComponent implements CommandLineRunne
 
     @Override
     public void run(String... args) throws Exception {
+        System.out.println("ExchangeRateScheduleTaskRunnerComponent: run");
         logger.info("Calling The Currency API endpoint for exchange rate");
-        scheduler.scheduleWithFixedDelay(rateService::getExchangeRate, 0, 60, TimeUnit.SECONDS);
+        scheduler.scheduleWithFixedDelay(rateService::getExchangeRate, 0, 12, TimeUnit.HOURS);
         logger.info("Ended Calling The Currency API endpoint");
     }
 }

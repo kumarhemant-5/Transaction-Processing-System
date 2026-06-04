@@ -28,6 +28,7 @@ public class UserService {
     }
 
     private User mapToUser(UserDto dto){
+        System.out.println("UserService: mapToUser");
         return User.builder()
                 .lastname(dto.getLastname())
                 .firstname(dto.getFirstname())
@@ -41,6 +42,7 @@ public class UserService {
 
 
     public Map<String,Object> authenticateUser(UserDto userDto) {
+        System.out.println("UserService: authenticateUser");
         Map<String,Object> authObject = new HashMap<String,Object>();
         User user = (User)userDetailsService.loadUserByUsername(userDto.getUsername());
 

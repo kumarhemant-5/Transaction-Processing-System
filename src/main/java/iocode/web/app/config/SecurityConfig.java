@@ -24,7 +24,8 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception{
-        http.cors((c)->c.configurationSource(corsConfigurationSource()))
+        System.out.println("SecurityConfig:Bean securityFilterChain");
+        http.cors((c) -> c.configurationSource(corsConfigurationSource()))
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(
                         request ->
@@ -32,21 +33,22 @@ public class SecurityConfig {
                                         .permitAll()
                                         .anyRequest()
                                         .authenticated()
-                ).authenticationProvider(authenticationProvider)
+                )
+                .authenticationProvider(authenticationProvider)
                 .addFilterBefore(authFilter, UsernamePasswordAuthenticationFilter.class)
-                .sessionManagement(session->session.sessionCreationPolicy(
-                        SessionCreationPolicy.STATELESS
-                ));
+                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
         return http.build();
     }
 
     @Bean
     public CorsConfigurationSource corsConfigurationSource(){
+        System.out.println("SecurityConfig:Bean corsConfigurationSource");
         CorsConfiguration corsConfig = new CorsConfiguration();
-        corsConfig.addAllowedOrigin("http://localhost:3000");
+        corsConfig.addAllowedOrigin("*");
         corsConfig.addAllowedMethod("*");
+        corsConfig.addAllowedHeader("*");
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**",corsConfig);
+        source.registerCorsConfiguration("/**", corsConfig);
         return source;
     }
 

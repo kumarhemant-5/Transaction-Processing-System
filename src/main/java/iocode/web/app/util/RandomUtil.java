@@ -3,6 +3,7 @@ package iocode.web.app.util;
 public class RandomUtil {
 
     public Long generateRandom(int length){
+        System.out.println("RandomUtil: generateRandom");
         StringBuilder sb = new StringBuilder(length);
 
         for(int i =0 ;i<length; i++){

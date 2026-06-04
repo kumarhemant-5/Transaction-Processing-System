@@ -15,6 +15,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static jakarta.persistence.FetchType.LAZY;
+
 @Builder
 @Getter
 @Setter
@@ -41,8 +43,6 @@ public class User implements UserDetails {
     private String password;
     private String gender;
 
-
-
     @CreationTimestamp
     private LocalDateTime createdAt;
     @UpdateTimestamp
@@ -51,15 +51,16 @@ public class User implements UserDetails {
     private List<String> roles;
 
 
-    @OneToOne(mappedBy = "owner")
+    //@OneToOne(mappedBy = "owner")
+    @OneToOne(mappedBy = "owner" , fetch = LAZY)
     @JsonIgnore
     private Card card;
 
-    @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL, fetch = LAZY)
     @JsonIgnore
     private List<Transaction> transactions;
 
-    @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL, fetch = LAZY)
     @JsonIgnore
     private List<Account> accounts;
 

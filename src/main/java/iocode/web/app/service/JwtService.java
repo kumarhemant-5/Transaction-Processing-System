@@ -20,11 +20,13 @@ public class JwtService {
     private String jwtSecret;
 
     public SecretKey generateKey(){
+        System.out.println("JwtService: generateKey");
         byte[] keyBytes = jwtSecret.getBytes();
         return Keys.hmacShaKeyFor(keyBytes);
     }
 
     public String generateToken(String username){
+        System.out.println("JwtService: generateToken");
         Date now = new Date();
         Date expiration = new Date(now.getTime()+EXPIRATION_TIME);
 
@@ -37,6 +39,7 @@ public class JwtService {
     }
 
     public Claims extractClaims(String token){
+        System.out.println("JwtService: extractClaims");
 
         return Jwts.parser()
                 .verifyWith(generateKey())
@@ -46,16 +49,19 @@ public class JwtService {
     }
 
     public String extractSubject(String token){
+        System.out.println("JwtService: extractSubject");
 
         return extractClaims(token).getSubject();
     }
 
     public boolean isTokenValid(String token){
+        System.out.println("JwtService: isTokenValid");
 
         return new Date().before(extractExpiration(token));
     }
 
     public Date extractExpiration(String token){
+        System.out.println("JwtService: extractExpiration");
         return extractClaims(token).getExpiration();
     }
 
